@@ -89,7 +89,7 @@ export default {
     },
     created() {
         this.$store.dispatch("getAllCoach");
-    }
+    },
 };
 </script>
 

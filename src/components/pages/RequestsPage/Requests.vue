@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <base-card>
         <header>
             <h2>Requests Received</h2>
         </header>
@@ -16,50 +16,29 @@
                 You haven't received any requests yet!
             </h3>
         </template>
-    </div>
+    </base-card>
 </template>
 
 <script>
-import axios from "axios";
+import { mapState } from "vuex";
 import RequestItem from "./RequestItem";
 import BaseLoading from "../../commons/BaseLoading";
+import BaseCard from "../../commons/BaseCard";
 
 export default {
     data() {
-        return {
-            loading: true,
-            requests: []
-        };
+        return {};
     },
     components: {
         RequestItem,
-        BaseLoading
+        BaseLoading,
+        BaseCard
+    },
+    computed: {
+        ...mapState(['loading', 'requests'])
     },
     created() {
-        axios
-            .get(
-                "https://find-your-coach-d614f-default-rtdb.firebaseio.com/requests/" +
-                    this.$store.state.userId +
-                    ".json"
-            )
-            .then(response => {
-                let allRequests = [];
-                if (response.data) {
-                    Object.keys(response.data).forEach(key => {
-                        allRequests.push({ ...response.data[key] });
-                    });
-                }
-                this.requests = allRequests;
-                setTimeout(() => {
-                    this.loading = false;
-                }, 1000);
-            })
-            .catch(error => {
-                console.log(error);
-                setInterval(() => {
-                    this.loading = false;
-                }, 1000);
-            });
+        this.$store.dispatch("getAllRequest");
     }
 };
 </script>

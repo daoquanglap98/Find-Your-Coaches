@@ -16,6 +16,7 @@ const store = createStore({
             userId: localStorage.getItem("userId") || null,
             tokenExpiration: localStorage.getItem("tokenExpiration") || null,
             coaches: [],
+            requests: [],
             filterOption: ["frontend", "backend", "career"],
             login: true,
             loading: false,
@@ -50,6 +51,9 @@ const store = createStore({
         SET_DATA_COACHES(state, coaches) {
             state.coaches = coaches;
         },
+        SET_DATA_REQUESTS(state, requests) {
+            state.requests = requests;
+        },
         SET_FILTER_OPTION(state, options) {
             state.filterOption = options;
         },
@@ -64,7 +68,7 @@ const store = createStore({
         }
     },
     actions: {
-        sendRequest(store, data) {
+        sendRequest(context, data) {
             DB_REQUESTS.child(data.id).push(data.request, error => {
                 if (error) {
                     console.log("Send request failed... ", error);
@@ -89,7 +93,7 @@ const store = createStore({
                     "https://find-your-coach-d614f-default-rtdb.firebaseio.com/coaches.json"
                 )
                 .then(response => {
-                    var allCoach = [];
+                    let allCoach = [];
                     if (response.data) {
                         Object.keys(response.data).forEach(key => {
                             allCoach.push({ id: key, ...response.data[key] });
@@ -100,6 +104,34 @@ const store = createStore({
                 })
                 .catch(error => {
                     commit("SET_STATE_LOADING", false);
+                    console.log(error);
+                });
+        },
+
+        getAllRequest({ state, commit }) {
+            commit("SET_STATE_LOADING", true);
+            axios
+                .get(
+                    "https://find-your-coach-d614f-default-rtdb.firebaseio.com/requests/" +
+                        state.userId +
+                        ".json"
+                )
+                .then(response => {
+                    let allRequest = [];
+                    if (response.data) {
+                        Object.keys(response.data).forEach(key => {
+                            allRequest.push({ ...response.data[key] });
+                        });
+                    }
+                    commit("SET_DATA_REQUESTS", allRequest);
+                    setTimeout(() => {
+                        commit("SET_STATE_LOADING", false);
+                    }, 500);
+                })
+                .catch(error => {
+                    setTimeout(() => {
+                        commit("SET_STATE_LOADING", false);
+                    }, 500);
                     console.log(error);
                 });
         },

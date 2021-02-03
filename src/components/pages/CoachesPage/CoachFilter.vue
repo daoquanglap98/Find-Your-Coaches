@@ -69,6 +69,7 @@ h2 {
     }
     label {
         margin-left: 0.25rem;
+        display: inline-block;
     }
 }
 </style>

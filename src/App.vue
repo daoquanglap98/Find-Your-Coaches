@@ -8,13 +8,21 @@
 </template>
 
 <script>
-import TheHeader from "./components/layouts/TheHeader"
+import TheHeader from "./components/layouts/TheHeader";
 export default {
     name: "App",
     components: {
         TheHeader
+    },
+    watch: {
+        $route: {
+            immediate: true,
+            handler(to) {
+                document.title = to.meta.title || "Find Your Coaches";
+            }
+        }
     }
-}
+};
 </script>
 
 <style>
@@ -30,30 +38,25 @@ body {
 
 .animate-enter-from {
     transform: translateY(-50px);
-    transition: 0.3s;
     opacity: 0;
 }
 
-.animate-enter-to {
+.animate-enter-to,
+.animate-leave-from {
     transform: translateY(0);
-    transition: 0.3s;
     opacity: 1;
 }
 
 .animate-enter-active {
-    transition-delay: 0.3s;
-    animation-delay: 0.3s;
+    transition: 0.4s;
+    transition-delay: 0.4s;
 }
 
-.animate-leave-from {
-    transform: translateY(0px);
-    transition: 0.3s;
-    opacity: 1;
+.animate-leave-active {
+    transition: 0.4s;
 }
-
 .animate-leave-to {
     transform: translateY(50px);
-    transition: 0.3s;
     opacity: 0;
 }
 </style>
