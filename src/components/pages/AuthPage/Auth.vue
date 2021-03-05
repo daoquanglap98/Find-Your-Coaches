@@ -5,17 +5,15 @@
 </template>
 
 <script>
-import BaseCard from "../../commons/BaseCard"
-import AuthForm from "./AuthForm"
+import BaseCard from "../../commons/BaseCard";
+import AuthForm from "./AuthForm";
 
 export default {
     components: {
         BaseCard,
         AuthForm
-    }
-}
+    },
+};
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

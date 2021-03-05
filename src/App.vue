@@ -5,14 +5,17 @@
             <component :is="Component" />
         </transition>
     </router-view>
+    <base-toast></base-toast>
 </template>
 
 <script>
 import TheHeader from "./components/layouts/TheHeader";
+import BaseToast from './components/commons/BaseToast.vue';
 export default {
     name: "App",
     components: {
-        TheHeader
+        TheHeader,
+        BaseToast
     },
     watch: {
         $route: {
@@ -21,12 +24,19 @@ export default {
                 document.title = to.meta.title || "Find Your Coaches";
             }
         }
-    }
+    },
+    created() {
+        if(this.$store.getters.isAuthenticated) {
+            this.$store.dispatch("getUserTokenDevices");
+            this.$store.dispatch("getAllRequest");
+        }
+    },   
 };
 </script>
 
 <style>
 @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css);
 body {
     margin: 0;
 }
@@ -48,12 +58,12 @@ body {
 }
 
 .animate-enter-active {
-    transition: 0.4s;
-    transition-delay: 0.4s;
+    transition: 0.5s;
+    transition-delay: 0.5s;
 }
 
 .animate-leave-active {
-    transition: 0.4s;
+    transition: 0.5s;
 }
 .animate-leave-to {
     transform: translateY(50px);

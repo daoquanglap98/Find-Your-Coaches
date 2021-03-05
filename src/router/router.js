@@ -49,13 +49,16 @@ const routes = [
         name: "CoachItemDetails",
         component: () =>
             import("../components/pages/CoachesPage/CoachItemDetails"),
-        meta: { title: "Coach" }
-    },
-    {
-        path: "/coaches/:id/contact",
-        name: "CoachContact",
-        component: () => import("../components/pages/CoachesPage/CoachContact"),
-        meta: { title: "Contact" }
+        meta: { title: "Coach" },
+        children: [
+            {
+                path: "contact",
+                name: "CoachContact",
+                component: () =>
+                    import("../components/pages/CoachesPage/CoachContactForm"),
+                meta: { title: "Contact" }
+            }
+        ]
     },
     {
         path: "/auth",

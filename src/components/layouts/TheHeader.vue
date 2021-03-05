@@ -2,49 +2,31 @@
     <header>
         <nav>
             <h1>
-                <router-link
-                    :to="{
-                        tag: 'a',
-                        path: '/coaches'
-                    }"
-                >
+                <router-link :to="{ tag: 'a', path: '/coaches' }">
                     Find a Coach
                 </router-link>
             </h1>
             <ul>
                 <li>
-                    <router-link
-                        :to="{
-                            tag: 'a',
-                            path: '/coaches'
-                        }"
-                    >
-                        All Coaches
+                    <router-link :to="{ tag: 'a', path: '/coaches' }">
+                        {{ $t('header.all_coaches')}}
                     </router-link>
                 </li>
                 <li v-if="auth">
-                    <router-link
-                        :to="{
-                            tag: 'a',
-                            path: '/requests'
-                        }"
-                    >
-                        Requests
+                    <router-link :to="{ tag: 'a', path: '/requests' }">
+                        {{ $t('header.requests')}}
                     </router-link>
                 </li>
                 <li>
                     <base-button v-if="auth" @click="onLogout" >
-                        Logout
+                        {{ $t('header.logout')}}
                     </base-button>
-                    <router-link
-                        v-else
-                        :to="{
-                            tag: 'a',
-                            path: '/auth'
-                        }"
-                    >
-                        Login
+                    <router-link v-else :to="{ tag: 'a', path: '/auth' }">
+                        {{ $t("auth.buttons.login") }}
                     </router-link>
+                </li>
+                <li>
+                    <the-language></the-language>
                 </li>
             </ul>
         </nav>
@@ -53,12 +35,14 @@
 
 <script>
 import BaseButton from "../commons/BaseButton"
+import TheLanguage from "./TheLanguage"
 export default {
     data() {
         return {}
     },
     components: {
         BaseButton,
+        TheLanguage
     },
     computed: {
         auth() {
